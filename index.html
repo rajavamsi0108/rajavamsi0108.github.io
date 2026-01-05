@@ -19,6 +19,7 @@
                 extend: {
                     animation: {
                         blob: "blob 7s infinite",
+                        'text-gradient': 'text-gradient 3s linear infinite',
                     },
                     keyframes: {
                         blob: {
@@ -26,6 +27,16 @@
                             "33%": { transform: "translate(30px, -50px) scale(1.1)" },
                             "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
                             "100%": { transform: "translate(0px, 0px) scale(1)" },
+                        },
+                        'text-gradient': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
                         },
                     },
                 },
@@ -38,7 +49,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 1s ease-out;
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
         }
         .reveal.active {
             opacity: 1;
@@ -53,6 +64,24 @@
         /* Animation Delays for Blobs */
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
+
+        /* Nav Link Hover Animation */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #8b5cf6; /* Violet-500 */
+            transition: width 0.3s ease-in-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
 
         /* Hide scrollbar for cleaner look */
         ::-webkit-scrollbar {
@@ -79,15 +108,15 @@
     <!-- Navbar -->
     <nav class="fixed w-full z-50 top-0 start-0 bg-white/70 dark:bg-slate-900/70 backdrop-blur-lg border-b border-white/20 dark:border-slate-800 transition-all duration-300">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-2 rtl:space-x-reverse">
-                <div class="w-8 h-8 bg-gradient-to-tr from-violet-600 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold shadow-lg">
+            <a href="#" class="flex items-center space-x-2 rtl:space-x-reverse group">
+                <div class="w-8 h-8 bg-gradient-to-tr from-violet-600 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold shadow-lg transform transition-transform group-hover:rotate-12">
                     RV
                 </div>
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white tracking-tight">Raja Vamsi</span>
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white tracking-tight group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">Raja Vamsi</span>
             </a>
             
             <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center">
-                <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors mr-2 text-slate-600 dark:text-yellow-400">
+                <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors mr-2 text-slate-600 dark:text-yellow-400 transform hover:scale-110 active:scale-95 duration-200">
                     <i data-lucide="moon" class="hidden dark:block"></i>
                     <i data-lucide="sun" class="block dark:hidden"></i>
                 </button>
@@ -98,11 +127,11 @@
 
             <div id="navbar-menu" class="hidden items-center justify-between w-full md:flex md:w-auto md:order-1 transition-all duration-300">
                 <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-slate-100 rounded-lg bg-slate-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-slate-800 md:dark:bg-transparent dark:border-slate-700">
-                    <li><a href="#about" class="nav-link block py-2 px-3 text-slate-900 rounded hover:bg-slate-100 md:hover:bg-transparent md:hover:text-violet-600 md:dark:hover:text-cyan-400 dark:text-white dark:hover:bg-slate-700 dark:hover:text-white md:dark:hover:bg-transparent transition-colors">About</a></li>
-                    <li><a href="#skills" class="nav-link block py-2 px-3 text-slate-900 rounded hover:bg-slate-100 md:hover:bg-transparent md:hover:text-violet-600 md:dark:hover:text-cyan-400 dark:text-white dark:hover:bg-slate-700 dark:hover:text-white md:dark:hover:bg-transparent transition-colors">Skills</a></li>
-                    <li><a href="#projects" class="nav-link block py-2 px-3 text-slate-900 rounded hover:bg-slate-100 md:hover:bg-transparent md:hover:text-violet-600 md:dark:hover:text-cyan-400 dark:text-white dark:hover:bg-slate-700 dark:hover:text-white md:dark:hover:bg-transparent transition-colors">Projects</a></li>
-                    <li><a href="#achievements" class="nav-link block py-2 px-3 text-slate-900 rounded hover:bg-slate-100 md:hover:bg-transparent md:hover:text-violet-600 md:dark:hover:text-cyan-400 dark:text-white dark:hover:bg-slate-700 dark:hover:text-white md:dark:hover:bg-transparent transition-colors">Achievements</a></li>
-                    <li><a href="#contact" class="nav-link block py-2 px-3 text-slate-900 rounded hover:bg-slate-100 md:hover:bg-transparent md:hover:text-violet-600 md:dark:hover:text-cyan-400 dark:text-white dark:hover:bg-slate-700 dark:hover:text-white md:dark:hover:bg-transparent transition-colors">Contact</a></li>
+                    <li><a href="#about" class="nav-link block py-2 px-3 text-slate-900 rounded md:bg-transparent md:text-slate-900 md:p-0 dark:text-white md:dark:text-white hover:text-violet-600 dark:hover:text-cyan-400 transition-colors">About</a></li>
+                    <li><a href="#skills" class="nav-link block py-2 px-3 text-slate-900 rounded md:bg-transparent md:text-slate-900 md:p-0 dark:text-white md:dark:text-white hover:text-violet-600 dark:hover:text-cyan-400 transition-colors">Skills</a></li>
+                    <li><a href="#projects" class="nav-link block py-2 px-3 text-slate-900 rounded md:bg-transparent md:text-slate-900 md:p-0 dark:text-white md:dark:text-white hover:text-violet-600 dark:hover:text-cyan-400 transition-colors">Projects</a></li>
+                    <li><a href="#achievements" class="nav-link block py-2 px-3 text-slate-900 rounded md:bg-transparent md:text-slate-900 md:p-0 dark:text-white md:dark:text-white hover:text-violet-600 dark:hover:text-cyan-400 transition-colors">Achievements</a></li>
+                    <li><a href="#contact" class="nav-link block py-2 px-3 text-slate-900 rounded md:bg-transparent md:text-slate-900 md:p-0 dark:text-white md:dark:text-white hover:text-violet-600 dark:hover:text-cyan-400 transition-colors">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -111,32 +140,32 @@
     <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 md:px-12 lg:px-24 relative">
         <div class="text-center z-10 max-w-4xl mx-auto reveal">
-            <div class="inline-block p-2 px-4 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-semibold mb-6 border border-violet-200 dark:border-violet-700">
+            <div class="inline-block p-2 px-4 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-semibold mb-6 border border-violet-200 dark:border-violet-700 hover:scale-105 transition-transform cursor-default">
                 Hello, World! 👋
             </div>
             <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
-                I'm <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500">Raja Vamsi</span>
+                I'm <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 via-fuchsia-500 to-cyan-500 animate-text-gradient bg-300%">Raja Vamsi</span>
             </h1>
             <div class="h-8 md:h-12 mb-6">
                <span class="text-xl md:text-3xl font-mono text-slate-600 dark:text-slate-300">
-                 <span id="typing-text"></span><span class="animate-pulse">|</span>
+                 <span id="typing-text"></span><span class="animate-pulse text-violet-500">|</span>
                </span>
             </div>
-            <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">
+            <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
                 Building intelligent, aesthetic, and impactful digital experiences through Generative AI & Modern Web Technologies.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#projects" class="px-8 py-3 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300">
+                <a href="#projects" class="px-8 py-3 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-1 transform active:scale-95 transition-all duration-300">
                     View Projects
                 </a>
-                <a href="#contact" class="px-8 py-3 rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-semibold border border-slate-200 dark:border-slate-700 hover:border-violet-500 hover:text-violet-500 dark:hover:border-cyan-400 dark:hover:text-cyan-400 transition-all duration-300">
+                <a href="#contact" class="px-8 py-3 rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-semibold border border-slate-200 dark:border-slate-700 hover:border-violet-500 hover:text-violet-500 dark:hover:border-cyan-400 dark:hover:text-cyan-400 hover:shadow-lg transform active:scale-95 transition-all duration-300">
                     Contact Me
                 </a>
             </div>
         </div>
         
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-400">
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-slate-400 hover:text-violet-500 transition-colors cursor-pointer" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
             <i data-lucide="chevron-down" width="32" height="32"></i>
         </div>
     </section>
@@ -144,21 +173,24 @@
     <!-- About Section -->
     <section id="about" class="py-20 px-6 md:px-12 lg:px-24 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal hover:scale-105 transition-transform duration-500">
                 About Me
             </h2>
             <div class="grid md:grid-cols-3 gap-8 items-center reveal delay-200">
                 <div class="md:col-span-1 flex justify-center">
-                    <div class="relative w-48 h-48">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-violet-600 to-cyan-500 rounded-2xl rotate-6 opacity-50 blur-lg"></div>
-                        <div class="absolute inset-0 bg-slate-200 dark:bg-slate-800 rounded-2xl flex items-center justify-center border border-slate-300 dark:border-slate-600">
-                            <i data-lucide="sparkles" class="text-violet-500" width="64" height="64"></i>
+                    <div class="relative w-48 h-48 group cursor-pointer">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-violet-600 to-cyan-500 rounded-2xl rotate-6 opacity-50 blur-lg group-hover:opacity-75 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 bg-slate-200 dark:bg-slate-800 rounded-2xl flex items-center justify-center border border-slate-300 dark:border-slate-600 group-hover:rotate-3 transition-transform duration-300">
+                            <i data-lucide="sparkles" class="text-violet-500 group-hover:scale-110 transition-transform duration-300" width="64" height="64"></i>
                         </div>
                     </div>
                 </div>
                 <div class="md:col-span-2 text-center md:text-left">
                     <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
-                        I'm a passionate <span class="text-violet-600 dark:text-cyan-400 font-semibold">Computer Science & Business Systems Undergraduate</span> with a deep interest in the intersection of Artificial Intelligence and Human-Computer Interaction.
+                        I'm a passionate <span class="text-violet-600 dark:text-cyan-400 font-semibold relative inline-block group">
+                            Computer Science & Business Systems Undergraduate
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-violet-600 dark:bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                        </span> with a deep interest in the intersection of Artificial Intelligence and Human-Computer Interaction.
                     </p>
                     <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                         Unlike typical developers, I thrive on the creative possibilities of <span class="font-semibold text-slate-900 dark:text-white">Generative AI</span>. Whether it's crafting intelligent chatbots or designing pixel-perfect web interfaces, I treat every project as an opportunity to learn something new and solve real-world problems.
@@ -171,74 +203,74 @@
     <!-- Skills Section -->
     <section id="skills" class="py-20 px-6 md:px-12 lg:px-24">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal hover:scale-105 transition-transform duration-500">
                 Technical Arsenal
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Skill Card 1 -->
-                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 reveal">
+                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-300 reveal hover:-translate-y-2 hover:shadow-xl hover:shadow-violet-500/10 group hover:border-violet-400 dark:hover:border-violet-500">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white group-hover:scale-110 transition-transform">
                             <i data-lucide="code-2" width="24" height="24"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 dark:text-white">Languages</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Java</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Python</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">C++</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">SQL</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors cursor-default">Java</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors cursor-default">Python</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors cursor-default">C++</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors cursor-default">SQL</span>
                     </div>
                 </div>
 
                 <!-- Skill Card 2 -->
-                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 reveal delay-100">
+                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-300 reveal delay-100 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/10 group hover:border-cyan-400 dark:hover:border-cyan-500">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white group-hover:scale-110 transition-transform">
                             <i data-lucide="globe" width="24" height="24"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 dark:text-white">Web Dev</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">HTML5</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">CSS3</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">JS</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">React</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Tailwind</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Flask</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors cursor-default">HTML5</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors cursor-default">CSS3</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors cursor-default">JS</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors cursor-default">React</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors cursor-default">Tailwind</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors cursor-default">Flask</span>
                     </div>
                 </div>
 
                 <!-- Skill Card 3 -->
-                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 reveal delay-200">
+                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-300 reveal delay-200 hover:-translate-y-2 hover:shadow-xl hover:shadow-amber-500/10 group hover:border-amber-400 dark:hover:border-amber-500">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white group-hover:scale-110 transition-transform">
                             <i data-lucide="zap" width="24" height="24"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 dark:text-white">AI & GenAI</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Prompt Eng</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">LLMs</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Chatbots</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">LangChain</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors cursor-default">Prompt Eng</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors cursor-default">LLMs</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors cursor-default">Chatbots</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors cursor-default">LangChain</span>
                     </div>
                 </div>
 
                 <!-- Skill Card 4 -->
-                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300 reveal delay-300">
+                <div class="p-6 rounded-2xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border border-white/20 dark:border-slate-700 hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-300 reveal delay-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-pink-500/10 group hover:border-pink-400 dark:hover:border-pink-500">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white">
+                        <div class="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white group-hover:scale-110 transition-transform">
                             <i data-lucide="terminal" width="24" height="24"></i>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 dark:text-white">Tools</h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Git</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">VS Code</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Figma</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Postman</span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">Vercel</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors cursor-default">Git</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors cursor-default">VS Code</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors cursor-default">Figma</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors cursor-default">Postman</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900/50 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors cursor-default">Vercel</span>
                     </div>
                 </div>
             </div>
@@ -248,23 +280,23 @@
     <!-- Projects Section -->
     <section id="projects" class="py-20 px-6 md:px-12 lg:px-24 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal hover:scale-105 transition-transform duration-500">
                 Featured Projects
             </h2>
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Project 1 -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/20 dark:border-slate-700 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-violet-500/50 reveal">
-                    <div class="h-2 w-full bg-gradient-to-r from-pink-500 to-rose-500"></div>
+                <div class="group relative overflow-hidden rounded-2xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/20 dark:border-slate-700 shadow-xl transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:shadow-violet-500/20 hover:border-violet-500/50 reveal">
+                    <div class="h-2 w-full bg-gradient-to-r from-pink-500 to-rose-500 group-hover:h-3 transition-all duration-300"></div>
                     <div class="p-8">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-2xl font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">
                                 AI Conversational Chatbot
                             </h3>
                             <div class="flex gap-3">
-                                <a href="#" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+                                <a href="https://github.com/rajavamsi0108" target="_blank" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-transform hover:scale-110">
                                     <i data-lucide="github" width="20" height="20"></i>
                                 </a>
-                                <a href="#" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+                                <a href="#" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-transform hover:scale-110">
                                     <i data-lucide="external-link" width="20" height="20"></i>
                                 </a>
                             </div>
@@ -273,28 +305,28 @@
                             An intelligent chatbot leveraging Generative AI to provide context-aware responses. Built with advanced prompt engineering techniques to ensure accurate and human-like interactions.
                         </p>
                         <div class="flex flex-wrap gap-2 mt-auto">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">Python</span>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">Flask</span>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">LLM API</span>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">Prompt Engineering</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-violet-500/50 transition-colors">Python</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-violet-500/50 transition-colors">Flask</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-violet-500/50 transition-colors">LLM API</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-violet-500/50 transition-colors">Prompt Engineering</span>
                         </div>
                     </div>
-                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-full blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/20 dark:border-slate-700 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-violet-500/50 reveal delay-200">
-                    <div class="h-2 w-full bg-gradient-to-r from-emerald-400 to-cyan-500"></div>
+                <div class="group relative overflow-hidden rounded-2xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/20 dark:border-slate-700 shadow-xl transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:shadow-cyan-500/20 hover:border-cyan-500/50 reveal delay-200">
+                    <div class="h-2 w-full bg-gradient-to-r from-emerald-400 to-cyan-500 group-hover:h-3 transition-all duration-300"></div>
                     <div class="p-8">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-2xl font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">
                                 Zero Waste Grocery App
                             </h3>
                             <div class="flex gap-3">
-                                <a href="#" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+                                <a href="https://github.com/rajavamsi0108" target="_blank" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-transform hover:scale-110">
                                     <i data-lucide="github" width="20" height="20"></i>
                                 </a>
-                                <a href="#" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+                                <a href="#" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-transform hover:scale-110">
                                     <i data-lucide="external-link" width="20" height="20"></i>
                                 </a>
                             </div>
@@ -303,13 +335,13 @@
                             A sustainable lifestyle web application helping users manage grocery inventory to reduce food waste. Features include expiration tracking, recipe suggestions based on available ingredients.
                         </p>
                         <div class="flex flex-wrap gap-2 mt-auto">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">React</span>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">Tailwind CSS</span>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">Node.js</span>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600">Firebase</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-cyan-500/50 transition-colors">React</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-cyan-500/50 transition-colors">Tailwind CSS</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-cyan-500/50 transition-colors">Node.js</span>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-slate-200/50 dark:bg-slate-700/50 text-slate-700 dark:text-cyan-300 border border-slate-300 dark:border-slate-600 group-hover:border-cyan-500/50 transition-colors">Firebase</span>
                         </div>
                     </div>
-                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-full blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
             </div>
         </div>
@@ -318,30 +350,30 @@
     <!-- Achievements Section -->
     <section id="achievements" class="py-20 px-6 md:px-12 lg:px-24">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal hover:scale-105 transition-transform duration-500">
                 Journey & Milestones
             </h2>
             <div class="mt-12 reveal">
                 
                 <!-- Desktop Timeline Item 1 -->
                 <div class="relative pl-8 md:pl-0">
-                    <div class="hidden md:flex items-center justify-between w-full mb-8 group">
-                        <div class="w-5/12 text-right pr-8 order-1">
+                    <div class="hidden md:flex items-center justify-between w-full mb-8 group cursor-default">
+                        <div class="w-5/12 text-right pr-8 order-1 transform transition-transform group-hover:-translate-x-2">
                             <h4 class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">B.Tech in CS & Business Systems</h4>
                             <p class="text-slate-500 dark:text-slate-400">Pursuing undergraduate degree with focus on AI and Business logic.</p>
                         </div>
                         <div class="w-2/12 flex justify-center order-2 relative">
                             <div class="absolute top-10 h-24 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-transform group-hover:scale-125">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 group-hover:shadow-violet-500/50">
                                 <i data-lucide="graduation-cap" width="18" height="18"></i>
                             </div>
                         </div>
-                        <div class="w-5/12 pl-8 order-3">
-                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm">2027 (Expected)</span>
+                        <div class="w-5/12 pl-8 order-3 transform transition-transform group-hover:translate-x-2">
+                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm group-hover:bg-violet-100 dark:group-hover:bg-violet-900/30 transition-colors">2027 (Expected)</span>
                         </div>
                     </div>
                     <!-- Mobile Timeline Item 1 -->
-                    <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2">
+                    <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2 hover:border-violet-500 transition-colors">
                         <div class="absolute -left-[11px] top-0 w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
                             <i data-lucide="graduation-cap" width="12" height="12"></i>
                         </div>
@@ -353,23 +385,23 @@
 
                 <!-- Desktop Timeline Item 2 -->
                 <div class="relative pl-8 md:pl-0">
-                    <div class="hidden md:flex items-center justify-between w-full mb-8 group">
-                        <div class="w-5/12 text-right pr-8 order-1">
+                    <div class="hidden md:flex items-center justify-between w-full mb-8 group cursor-default">
+                        <div class="w-5/12 text-right pr-8 order-1 transform transition-transform group-hover:-translate-x-2">
                             <h4 class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">Diploma in Computer Engineering</h4>
                             <p class="text-slate-500 dark:text-slate-400">Completed with distinction. Built strong foundation in programming.</p>
                         </div>
                         <div class="w-2/12 flex justify-center order-2 relative">
                             <div class="absolute top-10 h-24 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-transform group-hover:scale-125">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 group-hover:shadow-violet-500/50">
                                 <i data-lucide="graduation-cap" width="18" height="18"></i>
                             </div>
                         </div>
-                        <div class="w-5/12 pl-8 order-3">
-                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm">2024</span>
+                        <div class="w-5/12 pl-8 order-3 transform transition-transform group-hover:translate-x-2">
+                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm group-hover:bg-violet-100 dark:group-hover:bg-violet-900/30 transition-colors">2024</span>
                         </div>
                     </div>
                     <!-- Mobile Timeline Item 2 -->
-                    <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2">
+                    <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2 hover:border-violet-500 transition-colors">
                         <div class="absolute -left-[11px] top-0 w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
                             <i data-lucide="graduation-cap" width="12" height="12"></i>
                         </div>
@@ -381,23 +413,23 @@
 
                 <!-- Desktop Timeline Item 3 -->
                 <div class="relative pl-8 md:pl-0">
-                    <div class="hidden md:flex items-center justify-between w-full mb-8 group">
-                        <div class="w-5/12 text-right pr-8 order-1">
+                    <div class="hidden md:flex items-center justify-between w-full mb-8 group cursor-default">
+                        <div class="w-5/12 text-right pr-8 order-1 transform transition-transform group-hover:-translate-x-2">
                             <h4 class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">Generative AI & Prompt Engineering</h4>
                             <p class="text-slate-500 dark:text-slate-400">Institutional Training Program. Mastered LLM interaction patterns.</p>
                         </div>
                         <div class="w-2/12 flex justify-center order-2 relative">
                             <div class="absolute top-10 h-24 w-0.5 bg-slate-300 dark:bg-slate-700"></div>
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-transform group-hover:scale-125">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 group-hover:shadow-violet-500/50">
                                 <i data-lucide="award" width="18" height="18"></i>
                             </div>
                         </div>
-                        <div class="w-5/12 pl-8 order-3">
-                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm">2023</span>
+                        <div class="w-5/12 pl-8 order-3 transform transition-transform group-hover:translate-x-2">
+                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm group-hover:bg-violet-100 dark:group-hover:bg-violet-900/30 transition-colors">2023</span>
                         </div>
                     </div>
                     <!-- Mobile Timeline Item 3 -->
-                    <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2">
+                    <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2 hover:border-violet-500 transition-colors">
                         <div class="absolute -left-[11px] top-0 w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
                             <i data-lucide="award" width="12" height="12"></i>
                         </div>
@@ -409,23 +441,23 @@
 
                 <!-- Desktop Timeline Item 4 -->
                 <div class="relative pl-8 md:pl-0">
-                    <div class="hidden md:flex items-center justify-between w-full mb-8 group">
-                        <div class="w-5/12 text-right pr-8 order-1">
+                    <div class="hidden md:flex items-center justify-between w-full mb-8 group cursor-default">
+                        <div class="w-5/12 text-right pr-8 order-1 transform transition-transform group-hover:-translate-x-2">
                             <h4 class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-cyan-400 transition-colors">Web Development Certification</h4>
                             <p class="text-slate-500 dark:text-slate-400">Internshala Training. Built 3+ interactive web projects.</p>
                         </div>
                         <div class="w-2/12 flex justify-center order-2 relative">
                              <!-- No vertical line for last item -->
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-transform group-hover:scale-125">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-lg z-10 transform transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 group-hover:shadow-violet-500/50">
                                 <i data-lucide="award" width="18" height="18"></i>
                             </div>
                         </div>
-                        <div class="w-5/12 pl-8 order-3">
-                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm">2022</span>
+                        <div class="w-5/12 pl-8 order-3 transform transition-transform group-hover:translate-x-2">
+                            <span class="inline-block px-4 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-cyan-300 text-sm font-semibold shadow-sm group-hover:bg-violet-100 dark:group-hover:bg-violet-900/30 transition-colors">2022</span>
                         </div>
                     </div>
                      <!-- Mobile Timeline Item 4 -->
-                     <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2">
+                     <div class="md:hidden mb-10 relative border-l-2 border-slate-200 dark:border-slate-700 pl-6 ml-2 hover:border-violet-500 transition-colors">
                         <div class="absolute -left-[11px] top-0 w-6 h-6 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-md">
                             <i data-lucide="award" width="12" height="12"></i>
                         </div>
@@ -442,26 +474,26 @@
     <!-- Contact Section -->
     <section id="contact" class="mb-20 px-6 md:px-12 lg:px-24">
         <div class="max-w-2xl mx-auto text-center">
-            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-cyan-500 dark:from-violet-400 dark:to-cyan-300 reveal hover:scale-105 transition-transform duration-500">
                 Let's Connect
             </h2>
-            <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 shadow-2xl border border-slate-100 dark:border-slate-700 relative overflow-hidden reveal">
-                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-600 to-cyan-500"></div>
+            <div class="p-8 rounded-3xl bg-white dark:bg-slate-800 shadow-2xl border border-slate-100 dark:border-slate-700 relative overflow-hidden reveal group">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-600 to-cyan-500 group-hover:h-3 transition-all duration-300"></div>
                 <p class="text-slate-600 dark:text-slate-300 mb-8">
                     I'm currently looking for internships and new opportunities. Whether you have a question or just want to say hi, my inbox is always open!
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-6 mb-8">
-                    <a href="mailto:rajavamsi@example.com" class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group">
-                        <i data-lucide="mail" class="group-hover:text-violet-600 dark:group-hover:text-cyan-400"></i>
+                    <a href="mailto:vamsichellunoina@gmail.com" class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group/btn hover:scale-105 hover:shadow-lg">
+                        <i data-lucide="mail" class="group-hover/btn:text-violet-600 dark:group-hover/btn:text-cyan-400 transition-colors"></i>
                         <span>Email Me</span>
                     </a>
-                    <a href="https://github.com" class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group">
-                        <i data-lucide="github" class="group-hover:text-violet-600 dark:group-hover:text-cyan-400"></i>
+                    <a href="https://github.com/rajavamsi0108" target="_blank" class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group/btn hover:scale-105 hover:shadow-lg">
+                        <i data-lucide="github" class="group-hover/btn:text-violet-600 dark:group-hover/btn:text-cyan-400 transition-colors"></i>
                         <span>GitHub</span>
                     </a>
-                    <a href="https://linkedin.com" class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group">
-                        <i data-lucide="linkedin" class="group-hover:text-violet-600 dark:group-hover:text-cyan-400"></i>
+                    <a href="https://www.linkedin.com/in/raja-vamsi-chelluboina-368525305" target="_blank" class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group/btn hover:scale-105 hover:shadow-lg">
+                        <i data-lucide="linkedin" class="group-hover/btn:text-violet-600 dark:group-hover/btn:text-cyan-400 transition-colors"></i>
                         <span>LinkedIn</span>
                     </a>
                 </div>
@@ -469,13 +501,13 @@
                 <form class="space-y-4 text-left" onsubmit="event.preventDefault()">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Name</label>
-                        <input type="text" class="w-full px-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-slate-900 dark:text-white" placeholder="John Doe" />
+                        <input type="text" class="w-full px-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-slate-900 dark:text-white focus:shadow-lg focus:shadow-violet-500/20" placeholder="John Doe" />
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Message</label>
-                        <textarea rows="4" class="w-full px-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-slate-900 dark:text-white" placeholder="Hello! I'd like to discuss..."></textarea>
+                        <textarea rows="4" class="w-full px-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-violet-500 outline-none transition-all text-slate-900 dark:text-white focus:shadow-lg focus:shadow-violet-500/20" placeholder="Hello! I'd like to discuss..."></textarea>
                     </div>
-                    <button class="w-full py-3 px-6 rounded-lg bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all">
+                    <button class="w-full py-3 px-6 rounded-lg bg-gradient-to-r from-violet-600 to-cyan-600 text-white font-bold hover:shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-1 active:scale-95 transition-all duration-300">
                         Send Message
                     </button>
                 </form>
@@ -485,10 +517,10 @@
 
     <!-- Footer -->
     <footer class="py-8 text-center text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 bg-white/30 dark:bg-slate-900/30 backdrop-blur-md">
-        <div class="flex justify-center items-center gap-2 mb-2">
-            <i data-lucide="code-2" width="16" height="16"></i>
+        <div class="flex justify-center items-center gap-2 mb-2 group cursor-pointer">
+            <i data-lucide="code-2" width="16" height="16" class="group-hover:text-violet-500 transition-colors"></i>
             <span>with</span>
-            <div class="text-red-500">♥</div>
+            <div class="text-red-500 animate-pulse">♥</div>
             <span>by Raja Vamsi</span>
         </div>
         <p class="text-sm">© 2024. All rights reserved.</p>
