@@ -614,12 +614,12 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row justify-center gap-6 mb-8">
-                    <button onclick="copyEmail()"
-                        class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group/btn hover:scale-105 hover:shadow-lg border-none outline-none cursor-pointer">
+                    <a href="mailto:vamsichellunoina@gmail.com"
+                        class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group/btn hover:scale-105 hover:shadow-lg">
                         <i data-lucide="mail"
                             class="group-hover/btn:text-violet-600 dark:group-hover/btn:text-cyan-400 transition-colors"></i>
-                        <span id="emailText">Email Me</span>
-                    </button>
+                        <span>Email Me</span>
+                    </a>
                     <a href="https://github.com/rajavamsi0108" target="_blank"
                         class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-violet-100 dark:hover:bg-violet-900/30 text-slate-700 dark:text-white transition-all group/btn hover:scale-105 hover:shadow-lg">
                         <i data-lucide="github"
@@ -733,7 +733,7 @@
 
         // Typing Effect
         const typingTextElement = document.getElementById('typing-text');
-        const titles = ["Generative AI Developer", "Web Developer", "Problem Solver"];
+        const titles = ["Generative AI Developer", "Web Developer"];
         let loopNum = 0;
         let isDeleting = false;
         let text = '';
@@ -790,42 +790,6 @@
         document.querySelectorAll('.reveal').forEach(el => {
             observer.observe(el);
         });
-
-        // Email Copy Handler
-        function copyEmail() {
-            const email = "vamsichellunoina@gmail.com";
-
-            // Create temporary textarea for copying
-            const textArea = document.createElement("textarea");
-            textArea.value = email;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            document.body.appendChild(textArea);
-
-            textArea.focus();
-            textArea.select();
-
-            try {
-                document.execCommand('copy');
-
-                // Visual feedback "Copied!"
-                const textEl = document.getElementById('emailText');
-                if (textEl) {
-                    const originalText = textEl.innerText;
-                    textEl.innerText = "Email Copied!";
-                    setTimeout(() => {
-                        textEl.innerText = originalText;
-                    }, 2000);
-                }
-
-                // Still attempt to open default mail client
-                window.location.href = `mailto:${email}`;
-            } catch (err) {
-                console.error('Copy failed', err);
-            }
-
-            document.body.removeChild(textArea);
-        }
 
         // Contact Form AJAX Submission
         const contactForm = document.getElementById('contactForm');
